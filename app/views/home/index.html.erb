@@ -1,0 +1,76 @@
+<h1>Randomizer</h1>
+<div class="col-xs-6">
+    <div class="row form-group">
+        <label for="item-input">Item to randomize</label>
+        <input type="text" id="item-input" class="form-control" />
+    </div>
+    <div class="row">
+        <button type="button" class="btn btn-default" id="add-button">Add</button>
+        <button type="button" class="btn btn-primary" id="randomize-button">Randomize</button>
+    </div>
+    <div class="row" style="margin-top: 1em;">
+        <ul id="input-items-list" class="list-group">
+        </ul>
+    </div>
+</div>
+<div class="col-xs-2">
+
+</div>
+<div class="col-xs-4">
+    <div class="row">
+        <h2 id="winners-heading" style="display: none;">Winners!</h2>
+    </div>
+    <div class="row">
+        <ol id="randomized-items-list">
+        </ol>
+    </div>
+</div>
+
+<script>
+    var inputValues = [];
+
+    $("#add-button").click(
+        function() {
+            var itemInput = $("#item-input");
+            var input = itemInput.val();
+        
+            var newItem = "<li class=\"list-group-item\">" + htmlEncode(input) + "</li>";
+
+            inputValues.push(input);
+            $("#input-items-list").append(newItem);
+            itemInput.val("");
+            itemInput.focus();
+        }
+    );
+
+    $("#randomize-button").click(
+        function() {
+            var randomizedItemsList = $("#randomized-items-list");
+
+            $("#winners-heading").attr("style", "");
+            shuffle(inputValues);
+            $.each(inputValues, function( i, val ) {
+                var newItem = "<li>" + htmlEncode(val) + "</li>";
+                randomizedItemsList.append(newItem);
+            });
+        }
+    );
+
+    function htmlEncode(value) {
+        return $('<div/>').text(value).html();
+    }
+
+    // Fisher–Yates shuffle
+    function shuffle (array) {
+        var i = 0
+            , j = 0
+            , temp = null
+
+        for (i = array.length - 1; i > 0; i -= 1) {
+            j = Math.floor(Math.random() * (i + 1))
+            temp = array[i]
+            array[i] = array[j]
+            array[j] = temp
+        }
+    }
+</script>
