@@ -47,6 +47,8 @@
         function() {
             var randomizedItemsList = $("#randomized-items-list");
 
+            randomizedItemsList.empty();
+            
             $("#winners-heading").attr("style", "");
             shuffle(inputValues);
             $.each(inputValues, function( i, val ) {
